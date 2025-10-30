@@ -1,11 +1,16 @@
 // tslint:disable-next-line
 
-import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
-import { ModalController } from '@ionic/angular';
-import { ViewerModalComponent } from './viewer-modal/viewer-modal.component';
-import { register } from 'swiper/element/bundle';
+import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
+import {ModalController} from '@ionic/angular';
+import {ViewerModalComponent} from './viewer-modal/viewer-modal.component';
+import {register} from 'swiper/element/bundle';
 
-register();
+
+if (!customElements.get('swiper-container')) {
+  console.log('No Swiper.js instance registered, registering...');
+  register();
+}
+
 @Component({
   selector: 'ion-img-viewer',
   templateUrl: './ngx-ionic-image-viewer.component.html',
@@ -31,7 +36,9 @@ export class NgxIonicImageViewerComponent implements OnInit {
   @Input() title?: string;
   @Input() titleSize?: string;
 
-  constructor(public modalController: ModalController) {}
+  constructor(public modalController: ModalController) {
+
+  }
 
   async viewImage(
     src: string | undefined,
@@ -58,8 +65,8 @@ export class NgxIonicImageViewerComponent implements OnInit {
         swipeToClose
       },
       cssClass: this.cssClass && this.cssClass instanceof Array
-      ? ['ion-img-viewer', ...this.cssClass]
-      : ['ion-img-viewer', this.cssClass as string],
+        ? ['ion-img-viewer', ...this.cssClass]
+        : ['ion-img-viewer', this.cssClass as string],
       keyboardClose: true,
       showBackdrop: true
     });
@@ -67,5 +74,6 @@ export class NgxIonicImageViewerComponent implements OnInit {
     return await modal.present();
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 }
